@@ -1,10 +1,20 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">chintra</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/signin">SignIn</router-link> |
-      <router-link to="/signup">SignUp</router-link>
+    <div>
+      <span>ユーザーID：</span>
+      <input type="text" v-model="loginId">
+    </div>
+
+    <div>
+      <span>パスワード：</span>
+      <input type="password" v-model="password">
+    </div>
+
+    <button @click="clickLoginBtn">ログインボタン</button>
+
+    <div>
+      <p>ID：{{ loginId }}</p>
+      <p>パスワード：{{ password }}</p>
     </div>
     <router-view />
   </div>
@@ -16,7 +26,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import axios from 'axios'
 
 @Component
-export default class App extends Vue {
+export default class SignIn extends Vue {
   public loginId: string = ''
   public password: string = ''
 

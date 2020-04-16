@@ -1,10 +1,20 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">chintra</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/signin">SignIn</router-link> |
-      <router-link to="/signup">SignUp</router-link>
+    <div>
+      <span>サインインアップID：</span>
+      <input type="text" v-model="signupId">
+    </div>
+
+    <div>
+      <span>パスワード：</span>
+      <input type="password" v-model="password">
+    </div>
+
+    <button @click="clickLoginBtn">ログインボタン</button>
+
+    <div>
+      <p>ID：{{ signupId }}</p>
+      <p>パスワード：{{ password }}</p>
     </div>
     <router-view />
   </div>
@@ -16,27 +26,27 @@ import { Component, Vue } from 'vue-property-decorator'
 import axios from 'axios'
 
 @Component
-export default class App extends Vue {
-  public loginId: string = ''
+export default class SignUp extends Vue {
+  public signupId: string = ''
   public password: string = ''
 
   public async clickLoginBtn() {
     // ログインIDとパスワードの空白文字をトリム
-    this.loginId = this.loginId.trim()
+    this.signupId = this.signupId.trim()
     this.password = this.password.trim()
 
     // 入力値が空の場合、エラーメッセージを出力し、後続の処理を行わない
-    if (this.loginId.length < 1 || this.password.length < 1){
+    if (this.signupId.length < 1 || this.password.length < 1){
       alert('値を入力してください')
       return
     }
 
     // APIに対して、ログインIDとパスワードをPOST送信
-    // 本番環境のURLはhttps://shakan.herokuapp.com/login
-    // 開発環境のURLはhttp://localhost:8080/login
-    await axios.post('https://shakan.herokuapp.com/login',
+    // 本番環境のURLはhttps://shakan.herokuapp.com/signup
+    // 開発環境のURLはhttp://localhost:8080/signup
+    await axios.post('https://shakan.herokuapp.com/SignUp',
       {
-        loginId: this.loginId,
+        signupId: this.signupId,
         password: this.password
       }
     )
@@ -45,10 +55,10 @@ export default class App extends Vue {
       alert('入力値は' + response.config.data)
 
       // TODO:ログイン成功フラグの場合は画面遷移
-      // 返却値は response.config.data.isLogin(trueがログイン成功、falseが失敗)
+      // 返却値は response.config.data.isSignup(trueがログイン成功、falseが失敗)
 
       // ログイン成功
-      if(response.config.data.isLogin){
+      if(response.config.data.isSignup){
         // 次画面遷移
       } else {
         // ログイン失敗
