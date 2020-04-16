@@ -3,7 +3,7 @@
     <div id="nav">
       <router-link to="/">chintra</router-link> |
       <router-link to="/about">About</router-link> |
-      <router-link to="/signin">SignIn</router-link> |
+      <router-link to="/Login">LogIn</router-link> |
       <router-link to="/signup">SignUp</router-link>
     </div>
     <router-view />

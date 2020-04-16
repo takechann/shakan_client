@@ -2,7 +2,7 @@
   <div id="app">
     <div>
       <span>サインインアップID：</span>
-      <input type="text" v-model="signupId">
+      <input type="text" v-model="userId">
     </div>
 
     <div>
@@ -13,7 +13,7 @@
     <button @click="clickLoginBtn">ログインボタン</button>
 
     <div>
-      <p>ID：{{ signupId }}</p>
+      <p>ID：{{ userId }}</p>
       <p>パスワード：{{ password }}</p>
     </div>
     <router-view />
@@ -27,16 +27,16 @@ import axios from 'axios'
 
 @Component
 export default class SignUp extends Vue {
-  public signupId: string = ''
+  public userId: string = ''
   public password: string = ''
 
   public async clickLoginBtn() {
     // ログインIDとパスワードの空白文字をトリム
-    this.signupId = this.signupId.trim()
+    this.userId = this.userId.trim()
     this.password = this.password.trim()
 
     // 入力値が空の場合、エラーメッセージを出力し、後続の処理を行わない
-    if (this.signupId.length < 1 || this.password.length < 1){
+    if (this.userId.length < 1 || this.password.length < 1){
       alert('値を入力してください')
       return
     }
@@ -46,7 +46,7 @@ export default class SignUp extends Vue {
     // 開発環境のURLはhttp://localhost:8080/signup
     await axios.post('https://shakan.herokuapp.com/SignUp',
       {
-        signupId: this.signupId,
+        userId: this.userId,
         password: this.password
       }
     )
