@@ -4,9 +4,79 @@
       <router-link to="/">chintra</router-link> |
       <router-link to="/about">About</router-link>
     </div>
+
+    <div>
+      <span>ログインID：</span>
+      <input type="text" v-model="loginId">
+    </div>
+
+    <div>
+      <span>パスワード：</span>
+      <input type="password" v-model="password">
+    </div>
+
+    <button @click="clickLoginBtn">ログインボタン</button>
+
+    <div>
+      <p>ID：{{ loginId }}</p>
+      <p>パスワード：{{ password }}</p>
+    </div>
     <router-view />
   </div>
 </template>
+
+
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+import axios from 'axios'
+
+@Component
+export default class App extends Vue {
+  public loginId: string = ''
+  public password: string = ''
+
+  public async clickLoginBtn() {
+    // ログインIDとパスワードの空白文字をトリム
+    this.loginId = this.loginId.trim()
+    this.password = this.password.trim()
+
+    // 入力値が空の場合、エラーメッセージを出力し、後続の処理を行わない
+    if (this.loginId.length < 1 || this.password.length < 1){
+      alert('値を入力してください')
+      return
+    }
+
+    // APIに対して、ログインIDとパスワードをPOST送信
+    // 本番環境のURLはhttps://shakan.herokuapp.com/login
+    // 開発環境のURLはhttp://localhost:8080/login
+    await axios.post('https://shakan.herokuapp.com/login',
+      {
+        loginId: this.loginId,
+        password: this.password
+      }
+    )
+    .then(async response => {
+      console.log(response)
+      alert('入力値は' + response.config.data)
+
+      // TODO:ログイン成功フラグの場合は画面遷移
+      // 返却値は response.config.data.isLogin(trueがログイン成功、falseが失敗)
+
+      // ログイン成功
+      if(response.config.data.isLogin){
+        // 次画面遷移
+      } else {
+        // ログイン失敗
+        // エラーメッセージ(ログインに失敗しました)
+      }
+    })
+    .catch(error =>{
+      alert('通信エラー')
+      alert(error)
+    })
+  }
+}
+</script>
 
 <style>
 #app {

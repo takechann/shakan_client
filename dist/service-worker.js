@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.cc0daf481f50de88213934d9ab0d08c4.js"
+  "/precache-manifest.a63107dbeb0f985735ddcaecc410d22e.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "shakan_client_tmp"});
