@@ -10,7 +10,8 @@
       <input type="password" v-model="password">
     </div>
 
-    <button @click="clickLoginBtn">ログインボタン</button>
+    <button @click="clickSignUpBtn">登録ボタン</button>
+    <button @click="clickLoginBtn2">検証ボタン</button>
 
     <div>
       <p>ID：{{ userId }}</p>
@@ -30,7 +31,14 @@ export default class SignUp extends Vue {
   public userId: string = ''
   public password: string = ''
 
-  public async clickLoginBtn() {
+  public async clickLoginBtn2() {
+    await axios.post('http://localhost:8080/SignUp/init')
+    .then(async response => {
+      console.log(response)
+      alert('init')
+    })
+  }
+  public async clickSignUpBtn() {
     // ログインIDとパスワードの空白文字をトリム
     this.userId = this.userId.trim()
     this.password = this.password.trim()
@@ -41,33 +49,30 @@ export default class SignUp extends Vue {
       return
     }
 
-    // APIに対して、ログインIDとパスワードをPOST送信
-    // 本番環境のURLはhttps://shakan.herokuapp.com/signup
-    // 開発環境のURLはhttp://localhost:8080/signup
-    await axios.post('https://shakan.herokuapp.com/SignUp',
-      {
+    // リクエストデータ
+    let data: object = {
         userId: this.userId,
         password: this.password
-      }
-    )
+    }
+
+    // APIに対して、ログインIDとパスワードをPOST送信
+    // 本番環境のURLはhttps://shakan.herokuapp.com/SignUp/auth/signup
+    // 開発環境のURLはhttp://localhost:8080/SignUp/auth/signup
+    await axios.post('https://shakan.herokuapp.com/SignUp/auth/signup', data)
     .then(async response => {
-      console.log(response)
-      alert('入力値は' + response.config.data)
+      alert('登録完了')
+      console.dir(response)
 
-      // TODO:ログイン成功フラグの場合は画面遷移
-      // 返却値は response.config.data.isSignup(trueがログイン成功、falseが失敗)
+      // TODO: ログイン画面へ遷移
 
-      // ログイン成功
-      if(response.config.data.isSignup){
-        // 次画面遷移
-      } else {
-        // ログイン失敗
-        // エラーメッセージ(ログインに失敗しました)
-      }
     })
     .catch(error =>{
-      alert('通信エラー')
-      alert(error)
+      console.dir(error)
+      if(error.response.data.message = "Error: Username is already taken!"){
+        alert('すでにアカウントが存在しています')
+      } else {
+        alert('その他エラー')
+      }
     })
   }
 }

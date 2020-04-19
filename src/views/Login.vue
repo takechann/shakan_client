@@ -41,33 +41,29 @@ export default class Login extends Vue {
       return
     }
 
-    // APIに対して、ログインIDとパスワードをPOST送信
-    // 本番環境のURLはhttps://shakan.herokuapp.com/login
-    // 開発環境のURLはhttp://localhost:8080/login
-    await axios.post('https://shakan.herokuapp.com/login',
-      {
+    // リクエストデータ
+    let data: object = {
         userId: this.userId,
         password: this.password
-      }
-    )
+    }
+
+    // APIに対して、ログインIDとパスワードをPOST送信
+    // 本番環境のURLはhttps://shakan.herokuapp.com/Login/auth/login
+    // 開発環境のURLはhttp://localhost:8080/Login/auth/login
+    await axios.post('https://shakan.herokuapp.com/Login/auth/login', data)
     .then(async response => {
       console.log(response)
-      alert('入力値は' + response.config.data)
+      alert('ログイン成功')
 
-      // TODO:ログイン成功フラグの場合は画面遷移
-      // 返却値は response.config.data.isLogin(trueがログイン成功、falseが失敗)
+      // TODO:vuexにユーザIDとアクセストークンの保持
 
-      // ログイン成功
-      if(response.config.data.isLogin){
-        // 次画面遷移
-      } else {
-        // ログイン失敗
-        // エラーメッセージ(ログインに失敗しました)
-      }
+
+      // TODO:メイン画面への遷移
+
     })
     .catch(error =>{
-      alert('通信エラー')
-      alert(error)
+      alert('ログインに失敗しました')
+      console.dir(error)
     })
   }
 }
