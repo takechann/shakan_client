@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div>
     <div>
       <span>ユーザーID：</span>
       <input type="text" v-model="userId">
@@ -24,6 +24,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import axios from 'axios'
+import router from '../router'
 
 @Component
 export default class Login extends Vue {
@@ -59,7 +60,7 @@ export default class Login extends Vue {
 
 
       // TODO:メイン画面への遷移
-
+      router.push('/main')
     })
     .catch(error =>{
       alert('ログインに失敗しました')

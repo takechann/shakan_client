@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div>
     <div>
       <span>サインインアップID：</span>
       <input type="text" v-model="userId">
