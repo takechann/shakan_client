@@ -1,22 +1,31 @@
 <template>
   <div>
-    <div>
-      <span>ユーザーID：</span>
-      <input type="text" v-model="userId">
-    </div>
+    <el-card class="box-card login">
 
-    <div>
-      <span>パスワード：</span>
-      <input type="password" v-model="password">
-    </div>
+      <div slot="header" class="clearfix">
+        <span>Login</span>
+        <el-button style="float: right; padding: 3px 0" type="text">Forget password</el-button>
+      </div>
 
-    <button @click="clickLoginBtn">ログインボタン</button>
+      <el-form ref="form" label-width="80px">
+        <el-form-item label="Name">
+          <el-input v-model="userId"></el-input>
+        </el-form-item>
+        <el-form-item label="Password">
+          <el-input type="password" v-model="password"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="clickLoginBtn">ログイン</el-button>
+        </el-form-item>
+      </el-form>
+
+    </el-card>
 
     <div>
       <p>ID：{{ userId }}</p>
       <p>パスワード：{{ password }}</p>
     </div>
-    <router-view />
+
   </div>
 </template>
 
@@ -32,12 +41,15 @@ export default class Login extends Vue {
   public password: string = ''
 
   public async clickLoginBtn() {
+    this.$store.commit('setLoading', true)
+
     // ログインIDとパスワードの空白文字をトリム
     this.userId = this.userId.trim()
     this.password = this.password.trim()
 
     // 入力値が空の場合、エラーメッセージを出力し、後続の処理を行わない
     if (this.userId.length < 1 || this.password.length < 1){
+      this.$store.commit('setLoading', false)
       alert('値を入力してください')
       return
     }
@@ -53,6 +65,9 @@ export default class Login extends Vue {
     // 開発環境のURLはhttp://localhost:8080/Login/auth/login
     await axios.post('https://shakan.herokuapp.com/Login/auth/login', data)
     .then(async response => {
+      this.$store.commit('setLoading', false)
+
+
       console.log(response)
       alert('ログイン成功')
 
@@ -63,6 +78,9 @@ export default class Login extends Vue {
       router.push('/main')
     })
     .catch(error =>{
+      // 画面Loading解除
+      this.$store.commit('setLoading', false)
+
       alert('ログインに失敗しました')
       console.dir(error)
     })
@@ -71,24 +89,14 @@ export default class Login extends Vue {
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+.box-card
+{
+  width: 480px;
 }
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.login
+{
+  position: relative;
+  margin: auto;
 }
 </style>

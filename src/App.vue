@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" v-loading="isLoading">
     <div id="nav">
       <Header msg="Welcome to Your Vue.js App" />
       <router-link to="/">SignIn</router-link> |
@@ -11,7 +11,7 @@
 
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 import Header from './components/Header.vue'
 
 @Component({
@@ -21,6 +21,10 @@ import Header from './components/Header.vue'
 })
 
 export default class App extends Vue {
+    // 画面のLoading表示
+    public get isLoading(): boolean{
+        return this.$store.getters.getLoading
+    }
 }
 
 

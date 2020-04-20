@@ -14,10 +14,10 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.f44e231176634a8f61a75743e591c579.js"
+  "/precache-manifest.8a0721a1cddc9f7e7170e68546a62799.js"
 );
 
-workbox.core.setCacheNameDetails({prefix: "shakan_client_tmp"});
+workbox.core.setCacheNameDetails({prefix: "shakan_app"});
 
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {

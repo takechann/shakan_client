@@ -1,4 +1,4 @@
-# shakan_client_tmp
+# shakan_client
 
 ## Project setup
 ```
